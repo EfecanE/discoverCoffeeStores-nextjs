@@ -4,10 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Banner from "@/components/banner";
 
-import { Anybody } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-
-const inter = Anybody({ subsets: ["latin"] });
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -24,7 +21,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={styles.main}>
         <Banner
           buttonText={loading ? "Loading" : "View shops nearby"}
           buttonOnClick={handleOnBannerBtnClick}
