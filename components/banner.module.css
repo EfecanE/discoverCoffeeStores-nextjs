@@ -50,7 +50,7 @@
 }
 
 .button:hover {
-  background-color: var(--text-purple-dark);
+  background-color: var(--text-black);
 }
 
 /** 
