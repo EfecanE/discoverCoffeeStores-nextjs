@@ -4,10 +4,20 @@ import Image from "next/image";
 import Banner from "@/components/banner";
 import Card from "@/components/card";
 
-import coffeeData from "@/public/static/coffee-stores.json";
+import coffeeData from "@/data/coffee-stores.json";
 import styles from "@/styles/Home.module.css";
 
-export default function Home() {
+export async function getStaticProps(context) {
+  return {
+    props: {
+      coffeeData,
+    },
+  };
+}
+
+export default function Home(props) {
+  console.log("🚀 ~ file: index.js:55 ~ Home ~ props:", props);
+
   const handleOnBannerBtnClick = () => {
     console.log("clicked");
   };
@@ -34,15 +44,8 @@ export default function Home() {
         </div>
       </header>
       <main className={styles.cardWrapper}>
-        {coffeeData.map((coffeeShop) => {
-          return (
-            <Card
-              key={coffeeShop.id}
-              name={coffeeShop.name}
-              imgUrl={coffeeShop.imgUrl}
-              id={coffeeShop.id}
-            />
-          );
+        {props.coffeeData.map(({ id, name, imgUrl }) => {
+          return <Card key={id} name={name} imgUrl={imgUrl} id={id} />;
         })}
       </main>
     </>
