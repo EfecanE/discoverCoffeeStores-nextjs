@@ -127,8 +127,6 @@
 @media (min-width: 1280px) {
   .title2 {
     display: inline;
-  }
-  .title2 {
     padding-left: 0.5rem;
   }
 }

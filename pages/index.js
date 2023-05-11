@@ -4,20 +4,18 @@ import Image from "next/image";
 import Banner from "@/components/banner";
 import Card from "@/components/card";
 
-import coffeeData from "@/data/coffee-stores.json";
-import styles from "@/styles/Home.module.css";
+import coffeeStoresData from "@/data/coffee-stores.json";
+import styles from "@/styles/home.module.css";
 
 export async function getStaticProps(context) {
   return {
     props: {
-      coffeeData,
+      coffeeStores: coffeeStoresData,
     },
   };
 }
 
 export default function Home(props) {
-  console.log("🚀 ~ file: index.js:55 ~ Home ~ props:", props);
-
   const handleOnBannerBtnClick = () => {
     console.log("clicked");
   };
@@ -29,7 +27,7 @@ export default function Home(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className={styles.main}>
+      <header className={styles.header}>
         <Banner
           buttonText={"View shops nearby"}
           buttonOnClick={handleOnBannerBtnClick}
@@ -43,10 +41,15 @@ export default function Home(props) {
           ></Image>
         </div>
       </header>
-      <main className={styles.cardWrapper}>
-        {props.coffeeData.map(({ id, name, imgUrl }) => {
-          return <Card key={id} name={name} imgUrl={imgUrl} id={id} />;
-        })}
+      <main className={styles.main}>
+        {props.coffeeStores.length > 0 && (
+          <h1 className={styles.cardWrapperTitle}>Toronto Stores</h1>
+        )}
+        <div className={styles.cardWrapper}>
+          {props.coffeeStores.map(({ id, name, imgUrl }) => {
+            return <Card key={id} name={name} imgUrl={imgUrl} id={id} />;
+          })}
+        </div>
       </main>
     </>
   );
