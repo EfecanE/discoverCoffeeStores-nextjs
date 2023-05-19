@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "fastly.4sqi.net",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

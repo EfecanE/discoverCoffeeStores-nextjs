@@ -55,7 +55,7 @@ const CoffeeStore = ({ coffeeStore }) => {
           </div>
           <Link
             className={styles.imageWrapper}
-            href={coffeeStore.websiteUrl}
+            href={coffeeStore.link}
             target="_blank"
           >
             <Image

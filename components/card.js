@@ -17,8 +17,8 @@ const Card = ({ imgUrl, name, id }) => {
             className={styles.cardImage}
             src={imgUrl}
             alt={name}
-            width={260}
-            height={160}
+            width={300}
+            height={300}
           />
         </div>
       </div>
