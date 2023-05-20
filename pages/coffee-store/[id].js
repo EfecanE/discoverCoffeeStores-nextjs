@@ -5,12 +5,17 @@ import { useRouter } from "next/router";
 import cls from "classnames";
 import styles from "@/styles/coffee-detail.module.css";
 
-import coffeeStoresData from "@/data/coffee-stores.json";
+import { fetchCoffeeStores, fetchCoffeeStoresImage } from "@/lib/coffee-stores";
 
 export async function getStaticPaths() {
+  const coffeeStores = await fetchCoffeeStores();
+  const coffeeStoresWithImage = await fetchCoffeeStoresImage(
+    coffeeStores,
+    "600x600"
+  );
   return {
-    paths: coffeeStoresData.map((coffeeStore) => {
-      return { params: { id: coffeeStore.id.toString() } };
+    paths: coffeeStoresWithImage.map((coffeeStore) => {
+      return { params: { id: coffeeStore.fsq_id } };
     }),
     fallback: true,
   };
@@ -18,8 +23,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(staticProps) {
   const params = staticProps.params;
-  const coffeeStore = coffeeStoresData.find((store) => {
-    return store.id.toString() === params.id;
+  const coffeeStores = await fetchCoffeeStores();
+  const coffeeStoresWithImage = await fetchCoffeeStoresImage(
+    coffeeStores,
+    "600x600"
+  );
+  const coffeeStore = coffeeStoresWithImage.find((store) => {
+    return store.fsq_id === params.id;
   });
 
   return {
@@ -48,7 +58,7 @@ const CoffeeStore = ({ coffeeStore }) => {
       <div className={styles.container}>
         <div className={styles.col1}>
           <div className={styles.backToHomeLink}>
-            <Link href="/">Back to Homepage</Link>
+            <Link href="/">← Back to Homepage</Link>
           </div>
           <div className={styles.nameWrapper}>
             <h1 className={styles.name}>{coffeeStore.name}</h1>
@@ -60,10 +70,10 @@ const CoffeeStore = ({ coffeeStore }) => {
           >
             <Image
               className={styles.storeImg}
-              src={coffeeStore.imgUrl}
+              src={coffeeStore.image}
               alt={coffeeStore.name}
               width={600}
-              height={360}
+              height={450}
             />
           </Link>
         </div>
@@ -76,17 +86,19 @@ const CoffeeStore = ({ coffeeStore }) => {
               src={"/static/places.svg"}
               alt="Places Icon"
             />
-            <p className={styles.text}>{coffeeStore.address}</p>
+            <p className={styles.text}>{coffeeStore.name}</p>
           </div>
-          <div className={styles.iconWrapper}>
-            <Image
-              width={24}
-              height={24}
-              src={"/static/nearMe.svg"}
-              alt="Near Me Icon"
-            />
-            <p className={styles.text}>{coffeeStore.neighbourhood}</p>
-          </div>
+          {coffeeStore.formatted_address && (
+            <div className={styles.iconWrapper}>
+              <Image
+                width={24}
+                height={24}
+                src={"/static/nearMe.svg"}
+                alt="Near Me Icon"
+              />
+              <p className={styles.text}>{coffeeStore.formatted_address}</p>
+            </div>
+          )}
           <div className={styles.iconWrapper}>
             <Image
               width={24}

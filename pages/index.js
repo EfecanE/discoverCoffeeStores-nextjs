@@ -6,12 +6,14 @@ import Card from "@/components/card";
 
 import { fetchCoffeeStores, fetchCoffeeStoresImage } from "@/lib/coffee-stores";
 import styles from "@/styles/home.module.css";
-import { useEffect, useState } from "react";
 
 export async function getStaticProps(context) {
   try {
     const coffeeStores = await fetchCoffeeStores();
-    const coffeeStoresWithImage = await fetchCoffeeStoresImage(coffeeStores);
+    const coffeeStoresWithImage = await fetchCoffeeStoresImage(
+      coffeeStores,
+      "300x300"
+    );
 
     return {
       props: {
@@ -29,7 +31,9 @@ export async function getStaticProps(context) {
 }
 
 export default function Home(props) {
-  const handleOnBannerBtnClick = () => {};
+  const handleOnBannerBtnClick = () => {
+    console.log("clicked");
+  };
 
   return (
     <>
